@@ -369,8 +369,6 @@ h2{ color:#38bdf8; }
   box-shadow:0 6px 20px rgba(0,0,0,0.35);
 }
 .btn:active{ transform:scale(0.95); background:#1d4ed8; }
-.btn-stop{ background:#dc2626; }
-.btn-stop:active{ background:#b91c1c; }
 </style>
 </head>
 <body>
@@ -390,7 +388,6 @@ h2{ color:#38bdf8; }
       ontouchstart="event.preventDefault();startLeft()"
       ontouchend="event.preventDefault();stopSteering()"
       ontouchcancel="stopSteering()">stanga</button>
-    <button class="btn btn-stop" onclick="allStop()">STOP</button>
     <button class="btn"
       onmousedown="startRight()" onmouseup="stopSteering()" onmouseleave="stopSteering()"
       ontouchstart="event.preventDefault();startRight()"
@@ -412,7 +409,6 @@ function startLeft()     { fetch('/left'); }
 function startRight()    { fetch('/right'); }
 function stopDrive()     { fetch('/stopDrive'); }
 function stopSteering()  { fetch('/stopSteering'); }
-function allStop()       { fetch('/stopDrive'); fetch('/stopSteering'); }
 
 setInterval(async () => {
   try {
