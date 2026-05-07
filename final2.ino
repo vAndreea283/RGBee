@@ -130,8 +130,8 @@ int marioNotes = sizeof(marioMelody) / sizeof(marioMelody[0]) / 2;
 // GAME OVER SOUND
 // ======================================================
 
-int gameOver[]   = { 523, 494, 440, 392, 349, 330, 262 };
-int gameOverSize = 7;
+int gameOver[]   = { 300, 600, 900, 1200, 800, 400 };
+int gameOverSize = 6;
 
 // ======================================================
 // STATE
@@ -156,7 +156,7 @@ unsigned long crashNoteStart = 0;
 #define       CRASH_PAUSE    600
 
 // ======================================================
-// BUZZER HELPERS — core 3.x
+// BUZZER HELPERS
 // ======================================================
 
 void buzzerTone(int freq) {
@@ -176,16 +176,16 @@ void buzzerOff() {
 // DIRECTIE — IN3/IN4 (OUT3/OUT4 pe driver)
 // ======================================================
 
-void left()         { digitalWrite(IN3, HIGH); digitalWrite(IN4, LOW);  }
-void right()        { digitalWrite(IN3, LOW);  digitalWrite(IN4, HIGH); }
+void left()         { digitalWrite(IN3, LOW);  digitalWrite(IN4, HIGH); }
+void right()        { digitalWrite(IN3, HIGH); digitalWrite(IN4, LOW);  }
 void stopSteering() { digitalWrite(IN3, LOW);  digitalWrite(IN4, LOW);  }
 
 // ======================================================
 // TRACTIUNE — IN1/IN2 (OUT1/OUT2 pe driver)
 // ======================================================
 
-void forward()   { digitalWrite(IN1, LOW);  digitalWrite(IN2, HIGH); }
-void backward()  { digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW);  }
+void forward()   { digitalWrite(IN1, HIGH); digitalWrite(IN2, LOW);  }
+void backward()  { digitalWrite(IN1, LOW);  digitalWrite(IN2, HIGH); }
 void stopDrive() { digitalWrite(IN1, LOW);  digitalWrite(IN2, LOW);  }
 
 // ======================================================
