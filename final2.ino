@@ -380,26 +380,29 @@ h2{ color:#38bdf8; }
       onmousedown="startForward()" onmouseup="stopDrive()" onmouseleave="stopDrive()"
       ontouchstart="event.preventDefault();startForward()"
       ontouchend="event.preventDefault();stopDrive()"
-      ontouchcancel="stopDrive()">inainte</button>
+      ontouchcancel="stopDrive()">INAINTE</button>
   </div>
   <div class="row">
     <button class="btn"
       onmousedown="startLeft()" onmouseup="stopSteering()" onmouseleave="stopSteering()"
       ontouchstart="event.preventDefault();startLeft()"
       ontouchend="event.preventDefault();stopSteering()"
-      ontouchcancel="stopSteering()">stanga</button>
+      ontouchcancel="stopSteering()">STANGA</button>
     <button class="btn"
       onmousedown="startRight()" onmouseup="stopSteering()" onmouseleave="stopSteering()"
       ontouchstart="event.preventDefault();startRight()"
       ontouchend="event.preventDefault();stopSteering()"
-      ontouchcancel="stopSteering()">dreapta</button>
+      ontouchcancel="stopSteering()">DREAPTA</button>
   </div>
   <div class="row">
     <button class="btn"
       onmousedown="startBackward()" onmouseup="stopDrive()" onmouseleave="stopDrive()"
       ontouchstart="event.preventDefault();startBackward()"
       ontouchend="event.preventDefault();stopDrive()"
-      ontouchcancel="stopDrive()">inapoi</button>
+      ontouchcancel="stopDrive()">INAPOI</button>
+  </div>
+  <div class="row">
+    <button class="btn" id="musicBtn" onclick="toggleMusic()">AUDIO</button>
   </div>
 </div>
 <script>
@@ -409,6 +412,13 @@ function startLeft()     { fetch('/left'); }
 function startRight()    { fetch('/right'); }
 function stopDrive()     { fetch('/stopDrive'); }
 function stopSteering()  { fetch('/stopSteering'); }
+
+let musicOn = true;
+function toggleMusic() {
+  fetch('/toggleMusic');
+  musicOn = !musicOn;
+  document.getElementById('musicBtn').innerText = musicOn ? 'AUDIO' : 'MUTE';
+}
 
 setInterval(async () => {
   try {
@@ -458,6 +468,11 @@ void setup() {
   server.on("/stopSteering", []() { stopSteering(); server.send(200); });
   server.on("/distance",     []() {
     server.send(200, "text/plain", String(distance, 1));
+  });
+  server.on("/toggleMusic",  []() {
+    musicEnabled = !musicEnabled;
+    if (!musicEnabled) buzzerOff();
+    server.send(200);
   });
 
   server.begin();
