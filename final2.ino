@@ -141,6 +141,7 @@ int gameOverSize = 6;
 int           marioNote     = 0;
 unsigned long marioNextTime = 0;
 bool          marioSilent   = false; // true in timpul beep-ului + pauza
+bool          musicEnabled  = true;  // pornit by default
 
 // Beep / parking
 unsigned long lastBeep      = 0;
@@ -289,6 +290,7 @@ void parkingBeep() {
 void updateMario() {
   if (crashPlaying) return;
   if (beepActive)   return;
+  if (!musicEnabled) { buzzerOff(); return; }
 
   unsigned long now = millis();
 
