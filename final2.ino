@@ -141,7 +141,6 @@ int gameOverSize = 6;
 int           marioNote     = 0;
 unsigned long marioNextTime = 0;
 bool          marioSilent   = false; // true in timpul beep-ului + pauza
-bool          musicEnabled  = true;  // pornit by default
 
 // Beep / parking
 unsigned long lastBeep      = 0;
@@ -290,7 +289,6 @@ void parkingBeep() {
 void updateMario() {
   if (crashPlaying) return;
   if (beepActive)   return;
-  if (!musicEnabled) { buzzerOff(); return; }
 
   unsigned long now = millis();
 
@@ -382,29 +380,26 @@ h2{ color:#38bdf8; }
       onmousedown="startForward()" onmouseup="stopDrive()" onmouseleave="stopDrive()"
       ontouchstart="event.preventDefault();startForward()"
       ontouchend="event.preventDefault();stopDrive()"
-      ontouchcancel="stopDrive()">INAINTE</button>
+      ontouchcancel="stopDrive()">inainte</button>
   </div>
   <div class="row">
     <button class="btn"
       onmousedown="startLeft()" onmouseup="stopSteering()" onmouseleave="stopSteering()"
       ontouchstart="event.preventDefault();startLeft()"
       ontouchend="event.preventDefault();stopSteering()"
-      ontouchcancel="stopSteering()">STANGA</button>
+      ontouchcancel="stopSteering()">stanga</button>
     <button class="btn"
       onmousedown="startRight()" onmouseup="stopSteering()" onmouseleave="stopSteering()"
       ontouchstart="event.preventDefault();startRight()"
       ontouchend="event.preventDefault();stopSteering()"
-      ontouchcancel="stopSteering()">DREAPTA</button>
+      ontouchcancel="stopSteering()">dreapta</button>
   </div>
   <div class="row">
     <button class="btn"
       onmousedown="startBackward()" onmouseup="stopDrive()" onmouseleave="stopDrive()"
       ontouchstart="event.preventDefault();startBackward()"
       ontouchend="event.preventDefault();stopDrive()"
-      ontouchcancel="stopDrive()">INAPOI</button>
-  </div>
-  <div class="row">
-    <button class="btn" id="musicBtn" onclick="toggleMusic()">AUDIO</button>
+      ontouchcancel="stopDrive()">inapoi</button>
   </div>
 </div>
 <script>
@@ -414,13 +409,6 @@ function startLeft()     { fetch('/left'); }
 function startRight()    { fetch('/right'); }
 function stopDrive()     { fetch('/stopDrive'); }
 function stopSteering()  { fetch('/stopSteering'); }
-
-let musicOn = true;
-function toggleMusic() {
-  fetch('/toggleMusic');
-  musicOn = !musicOn;
-  document.getElementById('musicBtn').innerText = musicOn ? 'AUDIO' : 'MUTE';
-}
 
 setInterval(async () => {
   try {
@@ -470,11 +458,6 @@ void setup() {
   server.on("/stopSteering", []() { stopSteering(); server.send(200); });
   server.on("/distance",     []() {
     server.send(200, "text/plain", String(distance, 1));
-  });
-  server.on("/toggleMusic",  []() {
-    musicEnabled = !musicEnabled;
-    if (!musicEnabled) buzzerOff();
-    server.send(200);
   });
 
   server.begin();
